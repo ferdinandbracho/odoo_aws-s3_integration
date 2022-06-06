@@ -1,19 +1,15 @@
 import boto3
 import botocore
 
-S3_BUCKET = "traxi-fleet-test"
 
-
-def s3_connector():
+def s3_connector(ACCESS_KEY, SECRET_KEY, S3_BUCKET):
+    # try:
     session = boto3.Session(
-        aws_access_key_id="AKIA4ELBCROWJTI7ZO7U",
-        aws_secret_access_key="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",
+        aws_access_key_id=ACCESS_KEY,
+        aws_secret_access_key=SECRET_KEY,
     )
-
     s3 = session.resource('s3')
-
     s3_bucket = s3.Bucket(S3_BUCKET)
-
     return (s3, s3_bucket)
 
 

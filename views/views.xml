@@ -1,59 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data>
-    <!--INHERIT THE RES_CONPANY VIEW FORM-->
-    <record id="fleet_partner_res_company_inherited" model="ir.ui.view">
-      <field name="name">fleet.partner.res.company.inherited</field>
-      <field name="model">res.company</field>
-      <field name="inherit_id" ref="base.view_company_form"/>
-      <field name="arch" type="xml">
-        <!--MAKE UNNECESSARY FIELDS INVISIBLE-->
-        <xpath expr="//field[@name='vat']" position="attributes">
-          <attribute name="invisible">True</attribute>
-        </xpath> 
-        <xpath expr="//field[@name='currency_id']" position="attributes">
-          <attribute name="invisible">True</attribute>
-        </xpath> 
-        <xpath expr="//field[@name='company_registry']" position="attributes">
-          <attribute name="invisible">True</attribute>
-        </xpath> 
-        <xpath expr="//field[@name='partner_id']" position="attributes">
-          <attribute name="invisible">True</attribute>
-        </xpath> 
-        <xpath expr="//field[@name='street2']" position="attributes">
-          <attribute name="invisible">True</attribute>
-        </xpath> 
-        <!--ADD NECESSARY FIELDS-->
-        <xpath expr="//field[@name='partner_id']" position="after">
-          <field name="contact" />
-        </xpath> 
-        <xpath expr="//field[@name='email']" position="after">
-          <field name="billing_email" />
-        </xpath> 
-        <xpath expr="//field[@name='website']" position="after">
-          <!--
-          <field name="acta_cons" />
-          <field name="ced_fiscal" />
-          <field name="doc_id" />
-          <field name="op_sat" />
-          <field name="apo_legal" />
-          <field name="cons_sit_fiscal" />-->
-          <!--<button name="load_files" string="Load Files" type="object" class="btn-primary" />-->
-          <field name="documents" />
-        </xpath> 
-      </field>
-    </record>
-    <!--INHERIT THE IR_ATTACHMENT MODULE-->
-    <record id="s3_ir_attachment_inherit" model="ir.ui.view">
-      <field name="name">s3.ir.attachment.inherit</field>
-      <field name="model">ir.attachment</field>
-      <field name="inherit_id" ref="base.view_attachment_form"/>
-      <field name="arch" type="xml">
-        <xpath expr="//field[@name='type']" position="after">
-          <field name="life_cycle" />
-          <field name="s3_url" />
-          <field name="type" />
-        </xpath> 
-      </field>
-    </record>
-  </data>
+  <!--REGISTER DOCUMENTS-->
+  <record id="docs_config_form" model="ir.ui.view">
+    <field name="name">docs.config.form</field>
+    <field name="model">docs_config</field>
+    <field name="arch" type="xml">
+      <form string="Registra los documentos">
+        <sheet>
+          <group>
+            <field name="name" />
+            <field name="model" />
+            <field name="req_blacktrust" />
+            <field name="s3_bucket" />
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <!--ACTIONS-->
+  <record id="doc_config_action" model="ir.actions.act_window">
+    <field name="name">Document types</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">docs_config</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  <!--MENU-->
+  <menuitem id="doc_config_root" name="Traxi Documents Manager" sequence="10" web_icon="trx_docs,static/description/icon.png" />
+
+  <menuitem id="doc_config_show" name="Documents" parent="doc_config_root" sequence="10" />
+
+  <menuitem id="doc_config_crud" name="Manage Documents" action="doc_config_action" parent="doc_config_show" sequence="10" />
+
+  <!--INHERIT THE IR_ATTACHMENT MODULE-->
+  <record id="s3_ir_attachment_inherit" model="ir.ui.view">
+    <field name="name">s3.ir.attachment.inherit</field>
+    <field name="model">ir.attachment</field>
+    <field name="inherit_id" ref="base.view_attachment_form" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='type']" position="after">
+        <field name="life_cycle" />
+      </xpath>
+    </field>
+  </record>
 </odoo>

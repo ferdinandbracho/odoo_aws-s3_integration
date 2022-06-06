@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit_traxi_documents_manager</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="90" />
+            <field name="inherit_id" ref="base.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Documents" id="Traxi_fleet_Documents_Manager" string="Documents Manager" data-key="traxi_documents">
+                        <h2>AWS</h2>
+                        <div class="row mt16 o_settings_container" id="end_contract_setting">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane" />
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">S3 Configutation</span>
+                                    <div class="text-muted content-group mt16">
+                                        <span>Access Key ID    </span>
+                                        <field name="aws_access_key_id" password="True" />
+                                    </div>
+                                    <div class="text-muted content-group mt16">
+                                        <span>Secret Access Key    </span>
+                                        <field name="aws_secret_access_key" password="True" />
+                                    </div>
+                                    <div class="text-muted content-group mt16">
+                                        <span>S3 Bucket Name </span>
+                                        <field name="aws_s3_bucket_name" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="traxi_documents_manager_config_settings_action" model="ir.actions.act_window">
+            <field name="name">Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <!-- <field name="context">{'module' : 'traxi_fleet', 'bin_size': False}</field> -->
+        </record>
+
+        <menuitem id="traxi_documents_manager_config_menu" name="Configuration" parent="doc_config_root" sequence="99" groups="base.group_system" />
+
+        <menuitem id="traxi_documents_manager_config_settings_menu" name="Settings" action="traxi_documents_manager_config_settings_action" parent="traxi_documents_manager_config_menu" sequence="0" />
+
+    </data>
+</odoo>

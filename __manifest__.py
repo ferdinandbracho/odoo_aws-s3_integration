@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Fleet Partner",
-
+    'name': "Traxi Documents Manager",
     'summary': """
-        Submit info, documents and check status of partners""",
-
+        Manage documents""",
     'description': """
-        Module to manage information related to the submit
-        and status of partners using the service of TraxiBusiness
+        Module to manage documents and the relations to different models, 
+        and toggle between multiple options, such like s3 storage and BlackTrust 
+        validation
+        Main Features
+        -------------
+        * Create documents models
+        * Relate documents models with other models
+        * Add flag to documents to determine if s3 storage is needed
+        * Add flag to documents to determine if blacktrust validation is needed
     """,
-    
-    'author': "Traxion - Demian Avila",
+    'author': "Traxion - (Ferdinand Bracho - Demian Avila)",
     "website": "https://traxi.mx",
-    
-
+    'version': '0.1',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
-
+    'category': 'Customizations',
     # any module necessary for this one to work correctly
     'depends': ['base'],
 
@@ -27,6 +28,10 @@
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml',
+        'views/config_extender_form_view.xml'
     ],
+    "installable": True,
+    "application": True,
+    "license": "LGPL-3",
 
 }
