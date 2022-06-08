@@ -8,8 +8,7 @@ import botocore
 class AttachmentExtender(models.Model):
     _inherit = "ir.attachment"
 
-    document_type = fields.Char(store=False, invisible=True)
-
+    @api.model_create_multi
     def create(self, vals_list):
         record_tuple_set = set()
 
@@ -33,6 +32,7 @@ class AttachmentExtender(models.Model):
                     values['mimetype'],
                     vals_list[0]['type']
                 ))
+
             record_tuple = (values.get('res_model'), values.get('res_id'))
             record_tuple_set.add(record_tuple)
 
