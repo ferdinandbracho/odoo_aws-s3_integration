@@ -26,11 +26,19 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        # Security
+        'security/ir.model.access.csv',
+
+        # Views
         'views/views.xml',
         'views/config_extender_form_view.xml'
     ],
     "installable": True,
+    "assets": {
+        "web.assets_backend": [
+            "trx_docs/static/src/**/*",
+        ],
+    },
     "application": True,
     "license": "LGPL-3",
 
