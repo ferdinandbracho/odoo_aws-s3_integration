@@ -147,7 +147,7 @@ class AttachmentExtender(models.Model):
 
             # If not exist delete in  the local file system
             if not file_exists:
-                super(AttachmentExtender, self)._file_delete(self, fname)
+                super(AttachmentExtender, self)._file_delete(fname)
 
             # If file exist reading it
             else:
@@ -155,4 +155,4 @@ class AttachmentExtender(models.Model):
 
         # Todo: improve this error handler
         except:
-            super(AttachmentExtender, self)._file_delete(self, fname)
+            super(AttachmentExtender, self)._file_delete(fname)
