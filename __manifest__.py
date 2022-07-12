@@ -4,8 +4,8 @@
     'summary': """
         Manage documents""",
     'description': """
-        Module to manage documents and the relations to different models, 
-        and toggle between multiple options, such like s3 storage and BlackTrust 
+        Module to manage documents and the relations to different models,
+        and toggle between multiple options, such like s3 storage and BlackTrust
         validation
         Main Features
         -------------
@@ -22,7 +22,7 @@
     # for the full list
     'category': 'Customizations',
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'traxi_fleet'],
 
     # always loaded
     'data': [

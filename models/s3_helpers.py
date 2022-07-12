@@ -14,14 +14,14 @@ def s3_connector(ACCESS_KEY, SECRET_KEY, S3_BUCKET):
 
 
 def file_exists(s3, bucket_name, key):
-    exists = True
+    exists = False
     try:
         s3.meta.client.head_object(Bucket=bucket_name, Key=key)
+        exists = True
+        return exists
     except botocore.exceptions.ClientError as e:
         error_code = int(e.response['Error']['Code'])
-        if error_code == 404:
-            exists = False
-    return exists
+        return exists, error_code
 
 
 def delete_file_s3(s3, bucket_name, key,):

@@ -22,8 +22,9 @@ class AttachmentExtender(models.Model):
 
         for values in vals_list:
             values = self._check_contents(values)
-            raw, datas = values.pop('raw', None), values.pop('datas', None)
-            type = values.pop('type', None)
+            document_type = values['type']
+            raw, datas, = values.pop('raw', None), values.pop(
+                'datas', None)
             if raw or datas:
                 if isinstance(raw, str):
                     # b64decode handles str input but raw needs explicit encoding
@@ -31,7 +32,7 @@ class AttachmentExtender(models.Model):
                 values.update(self._get_datas_related_values(
                     raw or base64.b64decode(datas or b''),
                     values['mimetype'],
-                    type
+                    trx_doc=document_type
                 ))
 
             # 'check()' only uses res_model and res_id from values, and make an exists.
@@ -47,7 +48,7 @@ class AttachmentExtender(models.Model):
                               'res_model': res_model, 'res_id': res_id})
         return super(AttachmentExtender, self).create(vals_list)
 
-    def _get_datas_related_values(self, data, mimetype, traxi_doc=None):
+    def _get_datas_related_values(self, data, mimetype, trx_doc=None):
         values = {
             'file_size': len(data),
             'checksum': self._compute_checksum(data),
@@ -57,11 +58,11 @@ class AttachmentExtender(models.Model):
         }
         if data and self._storage() != 'db':
             values['store_fname'] = self._file_write(
-                data, values['checksum'], traxi_doc)
+                data, values['checksum'], trx_doc)
             values['db_datas'] = False
         return values
 
-    # Override file writer
+        # rewrite file writer
     def _file_write(self, value, checksum, traxi_doc=None):
         # search for current document
         document = self.env['docs_config'].sudo().search(
@@ -96,7 +97,7 @@ class AttachmentExtender(models.Model):
                 value, checksum)
         return fname
 
-    # Override file reader
+    # rewrite file reader
     def _file_read(self, fname):
 
         # Starting s3 connection
@@ -110,7 +111,8 @@ class AttachmentExtender(models.Model):
                     "aws_s3_bucket_name"))
 
             # Checking the existence of the file in bucket
-            file_exists = s3_helpers.file_exists(s3, s3_bucket.name, fname)
+            file_exists, error = s3_helpers.file_exists(
+                s3, s3_bucket.name, fname)
 
             # If not exist check the local file system
             if not file_exists:
@@ -131,6 +133,7 @@ class AttachmentExtender(models.Model):
             read = super(AttachmentExtender, self)._file_read(fname)
         return read
 
+    # rewrite file delete
     def _file_delete(self, fname):
         # Starting s3 connection
         try:
@@ -143,15 +146,17 @@ class AttachmentExtender(models.Model):
                     "aws_s3_bucket_name"))
 
             # Checking the existence of the file in bucket
-            file_exists = s3_helpers.file_exists(s3, s3_bucket.name, fname)
+            file_exists, error = s3_helpers.file_exists(
+                s3, s3_bucket.name, fname)
 
             # If not exist delete in  the local file system
-            if not file_exists:
-                super(AttachmentExtender, self)._file_delete(fname)
+            if file_exists:
+                s3_helpers.delete_file_s3(s3, s3_bucket.name, fname,)
 
             # If file exist reading it
             else:
-                s3_helpers.delete_file_s3(s3, s3_bucket.name, fname,)
+                print('Error when try to connect to aws s3 bucket :', error)
+                super(AttachmentExtender, self)._file_delete(fname)
 
         # Todo: improve this error handler
         except:
