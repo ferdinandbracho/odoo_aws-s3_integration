@@ -22,7 +22,7 @@
     # for the full list
     'category': 'Customizations',
     # any module necessary for this one to work correctly
-    'depends': ['base', 'traxi_fleet'],
+    'depends': ['base'],
 
     # always loaded
     'data': [
