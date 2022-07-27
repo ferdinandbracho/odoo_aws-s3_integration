@@ -7,6 +7,15 @@ import botocore
 
 class AttachmentExtender(models.Model):
     _inherit = "ir.attachment"
+    category = fields.Char(string="Categoría del documento")
+
+    @api.model
+    def odoo_assets(self):
+        attachments = self.env["ir.attachment"].search([])
+        for attachment in attachments:
+            attachment.category = "Odoo asset"
+
+        return True
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -22,9 +31,11 @@ class AttachmentExtender(models.Model):
 
         for values in vals_list:
             values = self._check_contents(values)
-            document_type = values['type']
+            document_type = values['category']
             raw, datas, = values.pop('raw', None), values.pop(
                 'datas', None)
+            if document_type == "Odoo asset":
+                continue
             if raw or datas:
                 if isinstance(raw, str):
                     # b64decode handles str input but raw needs explicit encoding
