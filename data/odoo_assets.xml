@@ -1,0 +1,6 @@
+<odoo>
+  <data noupdate="1">
+    <function model="ir.attachment"
+      name="odoo_assets"/>
+  </data>
+</odoo>
