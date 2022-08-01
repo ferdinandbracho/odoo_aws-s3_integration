@@ -39,6 +39,7 @@
     <field name="arch" type="xml">
       <xpath expr="//field[@name='type']" position="after">
         <field name="life_cycle" />
+        <field name="category" />
       </xpath>
     </field>
   </record>

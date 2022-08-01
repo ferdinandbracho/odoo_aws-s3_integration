@@ -28,6 +28,9 @@
     'data': [
         # Security
         'security/ir.model.access.csv',
+        
+        #Data
+        'data/odoo_assets.xml',
 
         # Views
         'views/views.xml',

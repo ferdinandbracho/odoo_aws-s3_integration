@@ -7,10 +7,54 @@ import botocore
 
 class AttachmentExtender(models.Model):
     _inherit = "ir.attachment"
+    category = fields.Char(string="Categoría del documento")
+
+    @api.model
+    def odoo_assets(self):
+        #attachments = self.env["ir.attachment"].search([])
+        #print("---------------------------------------", flush=True)
+        #print(attachments, flush=True)
+        #print("---------------------------------------", flush=True)
+        #for attachment in attachments:
+        #    attachment.category = "Odoo asset"
+        #ALL THE INITIAL ATTACHMENTS MUST BE ODOO ASSET
+        #query = "UPDATE ir_attachment SET category='Odoo asset'"
+        #self._cr.execute(query)
+
+        return True
 
     @api.model_create_multi
     def create(self, vals_list):
+        
+        #CHECK IF THE AWS VALIES EXISTS, ELSE SKIP
+        if len(self.env["res.config.settings"].search([]))==0:
+            return super(AttachmentExtender, self).create(vals_list)
+
+
+        print("---------------------------------------", flush=True)
+        print("CREATE RUNS FIRST", flush=True)
+        print(vals_list, flush=True)
+        print("---------------------------------------", flush=True)
+        
+        #THE ASSETS OF ODOO DOESNT CREATE AT INSTALLING, THEY CREATE AT OPEN OF PROJECT
+        odoo_assets = ["web.assets_common.min.css", "web.assets_frontend.min.css", 
+                "web.assets_common_minimal.min.js", "web.assets_frontend_minimal.min.js",
+                "web.assets_common_lazy.min.js", "web.assets_frontend_lazy.min.js"
+                "web.assets_backend.min.css", "web.assets_common.min.js",
+                "web.assets_backend.min.js", "web.assets_backend_prod_only.min.js",
+                "web.assets_common.css", "web.assets_common.css.map", 
+                "web.assets_backend.css", "web.assets_backend.css.map",
+                "web.assets_common.js", "web.assets_common.js.map",
+                "web.assets_backend.js", "web.assets_backend.js.map",
+                "web.assets_backend_prod_only.js","web.assets_backend_prod_only.js.map",
+                "res.company.scss"]
+
         record_tuple_set = set()
+        #IF IT'S CREATING AN ASSET, PASS THE METHOD
+        if vals_list[0]["name"] in odoo_assets:
+            print("THIS IS A MF ASSET", flush=True)
+            print(vals_list[0].keys(), flush=True)
+            return super(AttachmentExtender, self).create(vals_list)
 
         # remove computed field depending of datas
         vals_list = [{
@@ -25,6 +69,8 @@ class AttachmentExtender(models.Model):
             document_type = values['type']
             raw, datas, = values.pop('raw', None), values.pop(
                 'datas', None)
+            if document_type == "Odoo asset":
+                continue
             if raw or datas:
                 if isinstance(raw, str):
                     # b64decode handles str input but raw needs explicit encoding
