@@ -27,7 +27,8 @@
     # always loaded
     'data': [
         # Security
-        'security/ir.model.access.csv',
+        "security/fleet_security.xml",
+        "security/ir.model.access.csv",
 
         # Data
         # 'data/odoo_assets.xml',

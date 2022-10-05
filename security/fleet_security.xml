@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<odoo>
+        <record id="module_fleet_category" model="ir.module.category">
+            <field name="name">Fleet</field>
+            <field name="sequence">17</field>
+        </record>
+        <record id="trx_docs_group_manager" model="res.groups">
+            <field name="name">docs Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="base.group_user"/>
+        </record>
+</odoo>
+
