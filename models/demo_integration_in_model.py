@@ -16,10 +16,10 @@
 #                     Inheritance of the model res_company which is
 #                     the one that fits the best, according to the requirements
 #                     It allows to Sign up the different enterprices that want to
-#                     use the Traxi Business service"""
+#                     use the Business service"""
 
 #     """
-#     FIELDS REQUIRED BY TRAXI BUSINESS
+#     FIELDS REQUIRED BY BUSINESS
 #     Name - Already exist
 #     Address - Already exist related in res_partner
 #     Contact Email - Already exist related in res_company
@@ -28,7 +28,7 @@
 #     Contact Person - Create and relate to res_partner
 #     Website - Exists
 #     #####################################################
-#     DOCUMENTS REQUIRED BY TRAXI BUSINESS
+#     DOCUMENTS REQUIRED BY BUSINESS
 #     Acta constitutiva
 #     Cédula fiscal
 #     Documentos de identidad

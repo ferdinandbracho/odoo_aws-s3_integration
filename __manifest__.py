@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Traxi Documents Manager",
+    'name': "Documents Manager",
     'summary': """
         Manage documents""",
     'description': """
@@ -14,8 +14,8 @@
         * Add flag to documents to determine if s3 storage is needed
         * Add flag to documents to determine if blacktrust validation is needed
     """,
-    'author': "Traxion - (Ferdinand Bracho - Demian Avila)",
-    "website": "https://traxi.mx",
+    'author': "Ferdinand Bracho ",
+    "website": "",
     'version': '0.1',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
